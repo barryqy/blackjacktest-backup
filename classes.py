@@ -2,10 +2,10 @@ import os                   # for dumping and reloading state of the game
 import jsonpickle, json     # for dumping and reloading state of the game
 import uuid                 # for dumping and reloading state of the game
 from pathlib import Path    # for dumping and reloading state of the game
-import random               # shuffling card decks
+import random               # shuffling card decks TODO Remove after XDR integration
 
 class GameBlackJack:     
-    SESSIONS_DIR = 'sessions'   # used to store game state on disk
+    SESSIONS_DIR = 'sessions'   # used to store game state on client container
     NATURAL = 21                # target of the game is 21
     MOVE_HIT = 'hit'
     MOVE_STAND = 'stand'
@@ -295,11 +295,13 @@ class Decks:
         """
     
         self.decks = []
+        ###### TODO Will need to remove the following as we're doing this through XDR
         for _ in range(0, num_decks):            
             self.decks += [CardBlackJack(r,s) for r in CardBlackJack.RANK for s in CardBlackJack.SUIT]
         random.shuffle(self.decks)
         
     def popcard(self, facedown = False):
+        ###### TODO Replace the logic with XDR API
         card = self.decks.pop()
         card.facedown = facedown
         return card
