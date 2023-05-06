@@ -26,7 +26,7 @@
   transform: rotate(180deg);
 }
 .card-corner-rank, .card-corner-suit {
-  width: 1em;
+  width: 2em;
   text-align: center;
   transform: translate(-50%, 0);
 }

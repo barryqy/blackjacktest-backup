@@ -6,7 +6,7 @@ from classes import GameBlackJack, PlayerBlackJack, PlayerBlackJackHouse
 from flask_socketio import SocketIO, join_room
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins = '*')
 
 @app.route("/", methods=['GET'])
 def frontpage():    
@@ -18,7 +18,7 @@ def messageReceived(methods=['GET', 'POST']):
 @socketio.on('connected')
 def on_connected(json, methods=['GET', 'POST']):
     debugout('Client connected:{0} {1}'.format(str(json), request.sid))    
-    socketio.emit('my response', json, callback=messageReceived, room="jabolko")
+    socketio.emit('my response', json, callback=messageReceived, room="xdr")
 
 @socketio.on('list_multiplayer_games')
 def list_games(data, methods=['GET', 'POST']):
@@ -39,7 +39,7 @@ def addfirstplayer(data, methods=['GET', 'POST']):
         player_name -- name of the first player
     """
     
-    debugout('{1} [{2}EUR] = first player, game type = {0}'.format(data['game_type'], data['player_name'], data['bet_amount']))
+    debugout('{1} [{2}USD] = first player, game type = {0}'.format(data['game_type'], data['player_name'], data['bet_amount']))
     
     firstplayer = PlayerBlackJack(data['player_name'], 1000)    
     firstplayer.bet(int(data['bet_amount']))  
@@ -68,7 +68,7 @@ def joingame(data, methods=['GET', 'POST']):
     gameid = data['gameid']
     player_name = data['player_name']
     amount = int(data['bet_amount'])
-    debugout('{0} {1} joined. bet = {2} eur'.format(gameid, player_name, amount))
+    debugout('{0} {1} joined. bet = {2} USD'.format(gameid, player_name, amount))
         
     secondplayer = PlayerBlackJack(player_name, 1000)
     secondplayer.bet(amount)    
