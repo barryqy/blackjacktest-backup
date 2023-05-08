@@ -8,6 +8,23 @@ from flask_socketio import SocketIO, join_room
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins = '*')
 
+def prwarn(prt):
+    print(f"\033[94m{prt}\033[00m")
+
+prwarn("#########!!!CLICK_LINK_BELOW_TO_PLAY_BLACKJACK!!!#########")
+prwarn(os.environ["DEVENV_APP_8080_URL"])
+prwarn("#"*58)
+
+@app.route("/api", methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+    #    return jsonify(dump(PlayerBlackaJack))
+    elif request.method == 'POST':
+        data = request.json
+        # Process the data and return a response
+        response = {'message': 'Received POST request', 'data': data}
+        return json.dumps(response)
+    
 @app.route("/", methods=['GET'])
 def frontpage():    
     return render_template('cards.html')
