@@ -18,7 +18,7 @@ prwarn("#"*58)
 @app.route("/api", methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-    #    return jsonify(dump(PlayerBlackaJack))
+        return json.dumps(vars(PlayerBlackaJack))
     elif request.method == 'POST':
         data = request.json
         # Process the data and return a response
