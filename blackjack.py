@@ -15,10 +15,10 @@ prwarn("#########!!!CLICK_LINK_BELOW_TO_PLAY_BLACKJACK!!!#########")
 prwarn(os.environ["DEVENV_APP_8080_URL"])
 prwarn("#"*58)
 
-@app.route("/api", methods=['GET', 'POST'])
+@app.route("/api/playerinfo", methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-        return json.dumps(vars(PlayerBlackaJack))
+        return json.dumps( GameBlackJack.getactivemultiplayerinfo() )
     elif request.method == 'POST':
         data = request.json
         # Process the data and return a response

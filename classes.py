@@ -216,7 +216,28 @@ class GameBlackJack:
                 game_ids.append(gid)
         gdict = {'games' : game_ids, 'names' : first_players }        
         return gdict
-        
+    
+    @classmethod
+    def getactivemultiplayerinfo(cls):
+        """ Helper method for UI - returns all active multiplayer game ids by looking at existing game files """
+        #sess_files = glob.glob("{}".format(GameBlackJack.SESSIONS_DIR)).sort(key=os.path.getmtime, reverse=True) # get game files and sort descending by date
+        sess_files = os.listdir("{}".format(GameBlackJack.SESSIONS_DIR))
+        #print('{1}: {0}'.format(sess_files,"{}".format(GameBlackJack.SESSIONS_DIR)))        
+        first_players = []
+        player_balance = []
+        game_ids = []
+        for file in sess_files:
+            #gid = file.split('\\')[1] #TODO check if backslash exists
+            gid = file
+            print(gid)            
+            game = GameBlackJack.getstate(gid)            
+            if(game.multiplayer):
+                first_players.append(game.players[0].name)
+                player_balance.append(game.players[0].money)
+                game_ids.append(gid)
+        gdict = {'games' : game_ids, 'names' : first_players, 'player_balance' : player_balance }        
+        return gdict
+    
     def __repr__(self):            
         return "\n{1} {2}".format(len(self.decks.decks)/48, self.house, self.players)
 
