@@ -3,7 +3,7 @@ import jsonpickle, json     # for dumping and reloading state of the game
 import uuid                 # for dumping and reloading state of the game
 from pathlib import Path    # for dumping and reloading state of the game
 import random               # shuffling card decks TODO Remove after XDR integration
-
+from glob import glob
 class GameBlackJack:     
     SESSIONS_DIR = 'sessions'   # used to store game state on client container
     NATURAL = 21                # target of the game is 21
@@ -238,6 +238,14 @@ class GameBlackJack:
         gdict = {'games' : game_ids, 'names' : first_players, 'player_balance' : player_balance }        
         return gdict
     
+    @classmethod
+    def getstatejson(cls):
+        file_list = glob(os.path.join(GameBlackJack.SESSIONS_DIR, "*"))
+        sorted_files = sorted(file_list, key=os.path.getmtime, reverse=True)
+        #filepath = Path('{}/{}'.format(GameBlackJack.SESSIONS_DIR, gameid))
+        with open(sorted_files[0], 'r') as filehandle:
+            return jsonpickle.encode(jsonpickle.decode(json.load(filehandle)), unpicklable=False)
+        
     def __repr__(self):            
         return "\n{1} {2}".format(len(self.decks.decks)/48, self.house, self.players)
 

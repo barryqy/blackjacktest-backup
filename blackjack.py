@@ -15,10 +15,20 @@ prwarn("#########!!!CLICK_LINK_BELOW_TO_PLAY_BLACKJACK!!!#########")
 prwarn(os.environ["DEVENV_APP_8080_URL"])
 prwarn("#"*58)
 
-@app.route("/api/playerinfo", methods=['GET', 'POST'])
+#@app.route("/api", methods=['GET', 'POST'])
+#def index():
+#    if request.method == 'GET':
+#        return json.dumps( GameBlackJack.getactivemultiplayerinfo() )
+#    elif request.method == 'POST':
+#        data = request.json
+#        # Process the data and return a response
+#        response = {'message': 'Received POST request', 'data': data}
+#        return json.dumps(response)
+    
+@app.route("/api/getstatejson", methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-        return json.dumps( GameBlackJack.getactivemultiplayerinfo() )
+        return GameBlackJack.getstatejson()
     elif request.method == 'POST':
         data = request.json
         # Process the data and return a response
